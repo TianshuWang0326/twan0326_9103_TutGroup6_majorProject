@@ -1,8 +1,9 @@
-//This iteration one aims to create a basic water ripple animation
+//This iteration two aims to create an more aesthetically pleasing water ripple animation
 //The chosen method is user input: Incorporate mouse inputs for animation
 //This work were influenced by code from Happy Coding Tutorial of Mouse Ripple, from https://happycoding.io/tutorials/p5js/input/mouse-ripple
 //Explanation of the technique: Incorporating mouse input, it allows the user to view animated concentric circles after mouse-click
 //Acknowledgement: AI tool (chatgpt.com) were used to assist writing part of the code comments
+
 // Declare the variable graphicsObjects and assign it an empty array, to store the graphic objects
 let graphicsObjects = [];  
 
@@ -157,14 +158,38 @@ function draw() {
   // Display the ripple effect
   waveEffect.display();
   
-  //Draw Mouse Ripple
-  circleSize += 10;
-
-  stroke(0, 64, 128);
-  fill('rgba(111,237,250,0.25)');
+  //Iteration two_adjustment 1:Draw Mouse Ripple with a bit slower increase in diameters
+  circleSize += 8;
+  
+  //Iteration two_adjustment 2: Added more circles with different diameters, so 7 concurrent circles together to make the ripple looks bigger
+  //Iteration two_adjustment 3: Stroke colour adjustment is made for aesthetic quality improvement
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.01)');
   circle(circleX, circleY, circleSize);
-  circle(circleX, circleY, circleSize * .75);
-  circle(circleX, circleY, circleSize * .5);
+
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize * 0.02);
+
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize * 0.03);
+
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize * 0.05);
+
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize * 0.15);
+
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize * 0.30);
+
+  stroke(190, 240, 250);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize * 0.60);
 
   // Display each graphic object in for loop
   for (let i = 0; i < graphicsObjects.length; i++) {
