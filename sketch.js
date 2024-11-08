@@ -1,3 +1,8 @@
+//This iteration one aims to create a basic water ripple animation
+//The chosen method is user input: Incorporate mouse inputs for animation
+//This work were influenced by code from Happy Coding Tutorial of Mouse Ripple, from https://happycoding.io/tutorials/p5js/input/mouse-ripple
+//Explanation of the technique: Incorporating mouse input, it allows the user to view animated concentric circles after mouse-click
+//Acknowledgement: AI tool (chatgpt.com) were used to assist writing part of the code comments
 // Declare the variable graphicsObjects and assign it an empty array, to store the graphic objects
 let graphicsObjects = [];  
 
@@ -13,11 +18,18 @@ let waveEffect;
 // Declare the variable gridLayer
 let gridLayer;
 
+// Declare Variables of Mouse Ripple
+let circleX;
+let circleY;
+let circleSize;
+
 function setup() {
 
 //Create a canvas that has the same size as the browser window, using the variables windowWidth and windowHeight
   createCanvas(windowWidth, windowHeight);
-  noLoop();
+
+//To view the ripples, the function noLoop() is removed.
+//noLoop(); 
   
 //Initialise Graphic Elements, such as the colours and rings
   initialiseGraphics();
@@ -32,6 +44,13 @@ function setup() {
   
   //Draw the distorted horizonal lines and vertical lines at the bottom of the pool 
   drawGridAndDistortion(gridLayer); 
+
+// Set up Mouse Ripple
+  noFill();
+  strokeWeight(5);
+  circleX = width / 2;
+  circleY = height/ 2;
+  circleSize = 0;
 }
 
 function initialiseGraphics() {
@@ -138,11 +157,26 @@ function draw() {
   // Display the ripple effect
   waveEffect.display();
   
+  //Draw Mouse Ripple
+  circleSize += 10;
+
+  stroke(0, 64, 128);
+  fill('rgba(111,237,250,0.25)');
+  circle(circleX, circleY, circleSize);
+  circle(circleX, circleY, circleSize * .75);
+  circle(circleX, circleY, circleSize * .5);
+
   // Display each graphic object in for loop
   for (let i = 0; i < graphicsObjects.length; i++) {
     graphicsObjects[i].display();
   }
 } 
+
+function mousePressed(){
+    circleX = mouseX;
+    circleY = mouseY;
+    circleSize = 0;
+}
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
