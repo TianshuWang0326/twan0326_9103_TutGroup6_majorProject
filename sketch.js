@@ -1,8 +1,8 @@
-//This iteration two aims to create an more aesthetically pleasing water ripple animation
+//This iteration two aims to create an more complex water ripple animation
 //The chosen method is user input: Incorporate mouse inputs for animation
 //This work were influenced by code from Happy Coding Tutorial of Mouse Ripple, from https://happycoding.io/tutorials/p5js/input/mouse-ripple
 //Explanation of the technique: Incorporating mouse input, it allows the user to view animated concentric circles after mouse-click
-//Acknowledgement: AI tool (chatgpt.com) were used to assist writing part of the code comments
+//Acknowledgement: AI tool (chatgpt.com) were used to assist writing part of the code comments and specifically the code of making multiple ripples appear on the canvas after more than one user mouse click  
 
 // Declare the variable graphicsObjects and assign it an empty array, to store the graphic objects
 let graphicsObjects = [];  
@@ -19,10 +19,8 @@ let waveEffect;
 // Declare the variable gridLayer
 let gridLayer;
 
-// Declare Variables of Mouse Ripple
-let circleX;
-let circleY;
-let circleSize;
+// Declare the variables ripples and assign it an array to hold multiple ripples
+let ripples = []; 
 
 function setup() {
 
@@ -49,9 +47,6 @@ function setup() {
 // Set up Mouse Ripple
   noFill();
   strokeWeight(5);
-  circleX = width / 2;
-  circleY = height/ 2;
-  circleSize = 0;
 }
 
 function initialiseGraphics() {
@@ -155,41 +150,19 @@ function draw() {
   // Display the grid layer with distortion
   image(gridLayer, 0, 0);
   
-  // Display the ripple effect
+  // Display the wave effect
   waveEffect.display();
-  
-  //Iteration two_adjustment 1:Draw Mouse Ripple with a bit slower increase in diameters
-  circleSize += 8;
-  
-  //Iteration two_adjustment 2: Added more circles with different diameters, so 7 concurrent circles together to make the ripple looks bigger
-  //Iteration two_adjustment 3: Stroke colour adjustment is made for aesthetic quality improvement
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.01)');
-  circle(circleX, circleY, circleSize);
 
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.25)');
-  circle(circleX, circleY, circleSize * 0.02);
+  // Using for loop to draw all the ripples 
+  for (let i = 0; i < ripples.length; i++) {
+    let ripple = ripples[i];
 
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.25)');
-  circle(circleX, circleY, circleSize * 0.03);
+    //Call the custom function drawRipple, to draw the ripples
+    drawRipple(ripple); 
 
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.25)');
-  circle(circleX, circleY, circleSize * 0.05);
-
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.25)');
-  circle(circleX, circleY, circleSize * 0.15);
-
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.25)');
-  circle(circleX, circleY, circleSize * 0.30);
-
-  stroke(190, 240, 250);
-  fill('rgba(111,237,250,0.25)');
-  circle(circleX, circleY, circleSize * 0.60);
+    // Increase the ripple size each frame
+    ripple.size += ripple.speed; 
+  }
 
   // Display each graphic object in for loop
   for (let i = 0; i < graphicsObjects.length; i++) {
@@ -197,11 +170,47 @@ function draw() {
   }
 } 
 
+function drawRipple(ripple) {
+    // Draw the concentric ripples
+
+    //Use a light blue colour for the stroke, to represent the bright area of each wripple
+    stroke(190, 240, 250);
+
+    //Give transparency for the filled area, to show the quality of transparent water 
+    fill('rgba(111,237,250,0.01)');
+    circle(ripple.x, ripple.y, ripple.size);
+  
+    //Use a for loop to create concentric seven circles for a ripple
+    for (let i = 0; i < 7; i++) {
+
+    //The technique: function pow() is to exponential expressions, according to https://p5js.org/reference/p5/pow/ 
+    //Here paw(1.2, i) make each circle size grows by a factor of 1.2 every iteration of the loop.
+      let sizeMultiplier = 0.01 * pow(1.2, i);
+
+    // Calculate the transparency of each circle
+    // Here pow(0.6, i) achieve the visual effect of gradual vanishment when each circle diameter gradually increase
+      let opacityMultiplier = pow(0.6, i);
+      stroke(190, 240, 250);
+      fill(`rgba(111,237,250,${opacityMultiplier})`);
+      circle(ripple.x, ripple.y, ripple.size * sizeMultiplier);
+    }
+  }
+  
+
 function mousePressed(){
-    circleX = mouseX;
-    circleY = mouseY;
-    circleSize = 0;
+// When user clicks the mouse, display a new ripple at the mouse click position
+let ripple = {
+    x: mouseX,
+    y: mouseY,
+    size: 0,
+
+    // Random speed when each ripple increases in size
+    speed: random(6, 12)
+};
+    // Add the new ripple to the ripples array
+    ripples.push(ripple); 
 }
+  
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
