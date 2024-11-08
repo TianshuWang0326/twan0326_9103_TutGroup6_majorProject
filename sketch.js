@@ -1,4 +1,4 @@
-//This iteration two aims to create an more complex water ripple animation
+//This iteration three aims to create an more complex water ripple animation
 //The chosen method is user input: Incorporate mouse inputs for animation
 //This work were influenced by code from Happy Coding Tutorial of Mouse Ripple, from https://happycoding.io/tutorials/p5js/input/mouse-ripple
 //Explanation of the technique: Incorporating mouse input, it allows the user to view animated concentric circles after mouse-click
